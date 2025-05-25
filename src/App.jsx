@@ -7,6 +7,7 @@ import Shop from "./pages/Shop"
 import { useDispatch } from "react-redux"
 import { setProducts } from './redux/productSlice'
 import { mockData } from './assets/mockData'
+import Cart from './pages/Cart'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} ></Route>
         <Route path="/shop" element={<Shop />} ></Route>
+        <Route path="/cart" element={<Cart />} ></Route>
       </Routes>
       <Footer />
     </BrowserRouter>
