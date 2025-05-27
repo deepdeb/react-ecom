@@ -2,13 +2,22 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import EmptyCart from '../assets/Images/emptycart.png';
 import { FaTrashAlt } from 'react-icons/fa';
+import Modal from '../components/Modal';
+import ChangeAddress from '../components/ChangeAddress';
 
 const Cart = () => {
     const { products, totalQuantity, totalPrice } = useSelector(state => state.cart);
     const [address, setAddress] = useState('13/4 Main Street, Third Cross, Jackson Ville');
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
         <div className="min-h-screen bg-gray-50 py-10">
+
+            {/* modal */}
+            <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
+                <ChangeAddress setAddress={setAddress} setIsModalOpen={setIsModalOpen} />
+            </Modal>
+
             {products.length > 0 ? (
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h1 className="text-4xl font-semibold text-gray-800 mb-10">Shopping Cart</h1>
@@ -64,7 +73,7 @@ const Cart = () => {
                             <div>
                                 <h3 className="font-medium mb-1">Shipping Address:</h3>
                                 <p className="text-gray-600 mb-1">{address}</p>
-                                <button className="text-blue-600 hover:underline text-sm">
+                                <button className="text-blue-600 hover:underline text-sm" onClick={() => setIsModalOpen(true)}>
                                     Change Address
                                 </button>
                             </div>
