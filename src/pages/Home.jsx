@@ -18,7 +18,7 @@ const Home = () => {
           {/* Sidebar */}
           <div className="w-full md:w-3/12">
             <div className="bg-red-600 text-white text-sm font-semibold px-4 py-3 rounded-t-md">
-              Shop By Categories
+              Shop By Category
             </div>
             <ul className="space-y-3 bg-white shadow rounded-b-md px-4 py-5">
               {Categories.map((category, index) => (
