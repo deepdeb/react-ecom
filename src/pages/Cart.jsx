@@ -4,7 +4,7 @@ import EmptyCart from '../assets/Images/emptycart.png';
 import { FaTrashAlt } from 'react-icons/fa';
 import Modal from '../components/Modal';
 import ChangeAddress from '../components/ChangeAddress';
-import { removeFromCart } from '../redux/cartSlice';
+import { decreaseQuantity, increaseQuantity, removeFromCart } from '../redux/cartSlice';
 
 const Cart = () => {
     const { products, totalQuantity, totalPrice } = useSelector(state => state.cart);
@@ -50,9 +50,9 @@ const Cart = () => {
                                 </div>
                                 <div className="col-span-2 text-center text-gray-700">${product.price.toFixed(2)}</div>
                                 <div className="col-span-2 flex justify-center items-center">
-                                    <button className="px-3 py-1 border border-gray-300 rounded-l hover:bg-gray-100">-</button>
+                                    <button className="px-3 py-1 border border-gray-300 rounded-l hover:bg-gray-100" onClick={() => dispatch(decreaseQuantity(product))}>-</button>
                                     <span className="px-4 py-1 border-t border-b border-gray-300">{product.quantity}</span>
-                                    <button className="px-3 py-1 border border-gray-300 rounded-r hover:bg-gray-100">+</button>
+                                    <button className="px-3 py-1 border border-gray-300 rounded-r hover:bg-gray-100" onClick={() => dispatch(increaseQuantity(product))}>+</button>
                                 </div>
                                 <div className="col-span-2 text-center text-gray-700">
                                     ${(product.quantity * product.price).toFixed(2)}
