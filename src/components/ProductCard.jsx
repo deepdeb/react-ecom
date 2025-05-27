@@ -15,7 +15,7 @@ const ProductCard = ({product}) => {
     dispatch(addToCart(product))
     setTimeout(() => {
       setIsLoading(false)
-    }, 500);
+    }, 300);
   }
 
   return (
