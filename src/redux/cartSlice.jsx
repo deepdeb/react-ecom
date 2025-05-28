@@ -38,16 +38,29 @@ const cartSlice = createSlice({
         increaseQuantity(state, action) {
             const itemToIncrease = action.payload
             const foundItem = state.products.find(item => item.id === itemToIncrease.id)
-            foundItem.quantity += 1
-            state.totalPrice = state.totalPrice + foundItem.price
-            state.totalQuantity++
+            if (foundItem) {
+                foundItem.quantity += 1
+                foundItem.totalPrice += foundItem.price
+                state.totalPrice += foundItem.price
+                state.totalQuantity += 1
+            }
         },
         decreaseQuantity(state, action) {
             const itemToDecrease = action.payload
             const foundItem = state.products.find(item => item.id === itemToDecrease.id)
-            foundItem.quantity > 1 ? foundItem.quantity-- : 1
-            state.totalPrice = foundItem.quantity > 1 ? state.totalPrice - foundItem.price : state.totalPrice
-            state.totalQuantity = foundItem.quantity > 1 ? state.totalQuantity-- : state.totalQuantity
+
+            if (foundItem) {
+                if (foundItem.quantity > 1) {
+                    foundItem.quantity -= 1
+                    foundItem.totalPrice -= foundItem.price
+                    state.totalPrice -= foundItem.price
+                    state.totalQuantity -= 1
+                } else {
+                    state.products = state.products.filter(item => item.id !== foundItem.id)
+                    state.totalPrice = state.totalPrice - (foundItem.price * foundItem.quantity)
+                    state.totalQuantity = state.totalQuantity - foundItem.quantity
+                }
+            }
         }
     }
 })
