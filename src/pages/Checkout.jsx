@@ -62,10 +62,20 @@ const Checkout = () => {
                 <span>{openSection.shipping ? '−' : '+'}</span>
               </div>
               {openSection.shipping && (
-                <div className="p-4">
+                <div className="p-4 space-y-4">
                   <input
                     type="text"
                     placeholder="Enter Shipping Address"
+                    className="w-full border border-gray-300 rounded p-2"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Enter City"
+                    className="w-full border border-gray-300 rounded p-2"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Enter Pin Code"
                     className="w-full border border-gray-300 rounded p-2"
                   />
                 </div>
