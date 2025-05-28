@@ -2,12 +2,11 @@ import { Categories } from '../assets/mockData'
 import HeroImage from '../assets/Images/hero-page.png'
 import InfoSection from '../components/InfoSection'
 import CategorySection from '../components/CategorySection'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import ProductCard from '../components/ProductCard'
 import Shop from './Shop'
 
 const Home = () => {
-  const dispatch = useDispatch()
   const { products } = useSelector(state => state.product)
 
   return (
