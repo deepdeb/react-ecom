@@ -5,12 +5,14 @@ import { FaTrashAlt } from 'react-icons/fa';
 import Modal from '../components/Modal';
 import ChangeAddress from '../components/ChangeAddress';
 import { decreaseQuantity, increaseQuantity, removeFromCart } from '../redux/cartSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     const { products, totalQuantity, totalPrice } = useSelector(state => state.cart);
     const [address, setAddress] = useState('13/4 Main Street, Third Cross, Jackson Ville');
     const [isModalOpen, setIsModalOpen] = useState(false)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleRemoveFromCart = (product) => {
         dispatch(removeFromCart(product))
@@ -90,7 +92,7 @@ const Cart = () => {
                             </div>
                         </div>
 
-                        <button className="mt-6 w-full bg-red-600 hover:bg-red-700 text-white text-center py-3 rounded-lg font-medium">
+                        <button className="mt-6 w-full bg-red-600 hover:bg-red-700 text-white text-center py-3 rounded-lg font-medium" onClick={() => navigate('/checkout')}>
                             Proceed to Checkout
                         </button>
                     </div>
