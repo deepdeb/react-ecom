@@ -1,25 +1,28 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { clearCart } from '../redux/cartSlice';
 
-const OrderConfirmation = () => {
-  const { products, totalPrice } = useSelector(state => state.cart);
+const OrderConfirmation = ({order}) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
-  // Mocked data – ideally pass via context or props
-  const shippingInfo = {
-    address: '123 Street Name',
-    city: 'Your City',
-    zip: '000000',
-  };
+  console.log(order)
 
-  const paymentMode = 'Cash on Delivery'; // Replace with actual state if dynamic
-  const orderId = 'ORD123456'; // Optional order ID
+  const paymentMode = order?.paymentMode;
+  const orderId = order?.orderNumber;
+  const shippingInfo = order?.shippingInformation
+  const products = order?.products
+  const totalPrice = order?.totalPrice
+
+  useEffect(() => {
+    dispatch(clearCart())
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-50 py-10">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="text-4xl font-semibold text-green-600 mb-2">Thank You!</h1>
+        <h1 className="text-3xl font-semibold text-green-600 mb-2">Thank You!</h1>
         <p className="text-lg text-gray-700 mb-4">Your order <strong>{orderId}</strong> has been placed successfully.</p>
 
         <div className="bg-white shadow-sm rounded-xl p-6 text-left space-y-6">
@@ -27,7 +30,7 @@ const OrderConfirmation = () => {
           <div>
             <h2 className="text-xl font-semibold text-gray-800 mb-2">Shipping Information</h2>
             <p className="text-gray-700">
-              {shippingInfo.address}, {shippingInfo.city}, {shippingInfo.zip}
+              {shippingInfo?.address}, {shippingInfo?.city}, {shippingInfo?.zip}
             </p>
           </div>
 
@@ -40,7 +43,7 @@ const OrderConfirmation = () => {
           {/* Items Ordered */}
           <div>
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Items Ordered</h2>
-            {products.map((product) => (
+            {products?.map((product) => (
               <div key={product.id} className="flex items-center gap-4 mb-4">
                 <img
                   src={product.image}
@@ -57,7 +60,7 @@ const OrderConfirmation = () => {
             <hr className="my-4" />
             <div className="flex justify-between text-lg font-semibold text-gray-800">
               <span>Total:</span>
-              <span>${totalPrice.toFixed(2)}</span>
+              <span>${totalPrice?.toFixed(2)}</span>
             </div>
           </div>
         </div>

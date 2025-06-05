@@ -26,7 +26,8 @@ const Checkout = ({setOrder}) => {
       products: products,
       orderNumber: (Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000).toString(),
       shippingInformation: shippingInfo,
-      totalPrice: totalPrice
+      totalPrice: totalPrice,
+      paymentMode: paymentMode
     }
 
     setOrder(newOrder)

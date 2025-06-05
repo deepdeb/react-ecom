@@ -29,7 +29,7 @@ function App() {
         <Route path="/shop" element={<Shop />} ></Route>
         <Route path="/cart" element={<Cart />} ></Route>
         <Route path="/checkout" element={<Checkout setOrder={setOrder} />} ></Route>
-        <Route path="/order" element={<Order />} ></Route>
+        <Route path="/order" element={<Order order={order}/>} ></Route>
       </Routes>
       <Footer />
     </BrowserRouter>
