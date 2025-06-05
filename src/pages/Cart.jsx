@@ -28,7 +28,7 @@ const Cart = () => {
 
             {products.length > 0 ? (
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h1 className="text-4xl font-semibold text-gray-800 mb-10">Shopping Cart</h1>
+                    <h2 className="text-3xl font-bold mb-10 text-center text-gray-800">Shopping Cart</h2>
 
                     {/* Cart Items */}
                     <div className="bg-white shadow-sm rounded-xl overflow-hidden mb-10">

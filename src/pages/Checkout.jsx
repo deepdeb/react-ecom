@@ -36,7 +36,7 @@ const Checkout = ({setOrder}) => {
   return (
     <div className="min-h-screen bg-gray-50 py-10">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-semibold text-gray-800 mb-10">Checkout</h1>
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">Checkout</h1>
 
         {/* Billing Section */}
         <div className="bg-white shadow-sm rounded-xl mb-6">
