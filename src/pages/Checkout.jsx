@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-const Checkout = () => {
+const Checkout = ({setOrder}) => {
+  const navigate = useNavigate()
   const [paymentMode, setPaymentMode] = useState('');
+  const [shippingInfo, setShippingInfo] = useState({address: '', city: '', zip: ''})
   const [openSection, setOpenSection] = useState({
     billing: true,
     shipping: false,
@@ -17,6 +20,18 @@ const Checkout = () => {
   };
 
   const { products, totalPrice } = useSelector(state => state.cart);
+
+  const handleOrder = () => {
+    const newOrder = {
+      products: products,
+      orderNumber: (Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000).toString(),
+      shippingInformation: shippingInfo,
+      totalPrice: totalPrice
+    }
+
+    setOrder(newOrder)
+    navigate('/order')
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-10">
@@ -68,16 +83,19 @@ const Checkout = () => {
                 type="text"
                 placeholder="Enter Shipping Address"
                 className="w-full border border-gray-300 rounded p-2"
+                onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})}
               />
               <input
                 type="text"
                 placeholder="Enter City"
                 className="w-full border border-gray-300 rounded p-2"
+                onChange={(e) => setShippingInfo({...shippingInfo, city: e.target.value})}
               />
               <input
                 type="text"
-                placeholder="Enter Pin Code"
+                placeholder="Enter Zip Code"
                 className="w-full border border-gray-300 rounded p-2"
+                onChange={(e) => setShippingInfo({...shippingInfo, zip: e.target.value})}
               />
             </div>
           )}
@@ -162,7 +180,7 @@ const Checkout = () => {
             <span>${totalPrice.toFixed(2)}</span>
           </div>
 
-          <button className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-medium transition">
+          <button className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-medium transition" onClick={handleOrder}>
             Place Order
           </button>
         </div>
