@@ -2,15 +2,73 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-const Checkout = ({setOrder}) => {
-  const navigate = useNavigate()
+const Checkout = ({ setOrder }) => {
+  const navigate = useNavigate();
   const [paymentMode, setPaymentMode] = useState('');
-  const [shippingInfo, setShippingInfo] = useState({address: '', city: '', zip: ''})
+  const [shippingInfo, setShippingInfo] = useState({
+    address: '',
+    city: '',
+    zip: ''
+  });
+  const [billingInfo, setBillingInfo] = useState({
+    name: '',
+    email: '',
+    phone: ''
+  });
+  const [errors, setErrors] = useState({});
   const [openSection, setOpenSection] = useState({
     billing: true,
     shipping: false,
     payment: false,
   });
+
+  const { products, totalPrice } = useSelector(state => state.cart);
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Billing validation
+    // if (!billingInfo.name.trim()) newErrors.name = 'Name is required';
+    // if (!billingInfo.email.trim()) newErrors.email = 'Email is required';
+    // if (!billingInfo.phone.trim()) newErrors.phone = 'Phone is required';
+
+    // Shipping validation
+    if (!shippingInfo.address.trim()) newErrors.address = 'Address is required';
+    if (!shippingInfo.city.trim()) newErrors.city = 'City is required';
+    if (!shippingInfo.zip.trim()) newErrors.zip = 'Zip code is required';
+
+    // Payment validation
+    if (!paymentMode) newErrors.paymentMode = 'Payment method is required';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleOrder = (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      // Open all sections if there are errors
+      setOpenSection({
+        billing: true,
+        shipping: true,
+        payment: true
+      });
+      return;
+    }
+
+    const newOrder = {
+      products: products,
+      orderNumber: (Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000).toString(),
+      shippingInformation: shippingInfo,
+      billingInformation: billingInfo,
+      totalPrice: totalPrice,
+      paymentMode: paymentMode
+    };
+
+    setOrder(newOrder);
+    navigate('/order');
+  };
 
   const toggleSection = (section) => {
     setOpenSection((prev) => ({
@@ -18,21 +76,6 @@ const Checkout = ({setOrder}) => {
       [section]: !prev[section],
     }));
   };
-
-  const { products, totalPrice } = useSelector(state => state.cart);
-
-  const handleOrder = () => {
-    const newOrder = {
-      products: products,
-      orderNumber: (Math.floor(Math.random() * (9999999999 - 1000000000 + 1)) + 1000000000).toString(),
-      shippingInformation: shippingInfo,
-      totalPrice: totalPrice,
-      paymentMode: paymentMode
-    }
-
-    setOrder(newOrder)
-    navigate('/order')
-  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-10">
@@ -50,21 +93,36 @@ const Checkout = ({setOrder}) => {
           </div>
           {openSection.billing && (
             <div className="p-4 space-y-4">
-              <input
-                type="text"
-                placeholder="Enter Name"
-                className="w-full border border-gray-300 rounded p-2"
-              />
-              <input
-                type="email"
-                placeholder="Enter Email"
-                className="w-full border border-gray-300 rounded p-2"
-              />
-              <input
-                type="tel"
-                placeholder="Enter Phone #"
-                className="w-full border border-gray-300 rounded p-2"
-              />
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter Name"
+                  className={`w-full border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded p-2`}
+                  value={billingInfo.name}
+                  onChange={(e) => setBillingInfo({ ...billingInfo, name: e.target.value })}
+                />
+                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+              </div>
+              <div>
+                <input
+                  type="email"
+                  placeholder="Enter Email"
+                  className={`w-full border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded p-2`}
+                  value={billingInfo.email}
+                  onChange={(e) => setBillingInfo({ ...billingInfo, email: e.target.value })}
+                />
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+              </div>
+              <div>
+                <input
+                  type="tel"
+                  placeholder="Enter Phone #"
+                  className={`w-full border ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded p-2`}
+                  value={billingInfo.phone}
+                  onChange={(e) => setBillingInfo({ ...billingInfo, phone: e.target.value })}
+                />
+                {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+              </div>
             </div>
           )}
         </div>
@@ -80,24 +138,48 @@ const Checkout = ({setOrder}) => {
           </div>
           {openSection.shipping && (
             <div className="p-4 space-y-4">
-              <input
-                type="text"
-                placeholder="Enter Shipping Address"
-                className="w-full border border-gray-300 rounded p-2"
-                onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})}
-              />
-              <input
-                type="text"
-                placeholder="Enter City"
-                className="w-full border border-gray-300 rounded p-2"
-                onChange={(e) => setShippingInfo({...shippingInfo, city: e.target.value})}
-              />
-              <input
-                type="text"
-                placeholder="Enter Zip Code"
-                className="w-full border border-gray-300 rounded p-2"
-                onChange={(e) => setShippingInfo({...shippingInfo, zip: e.target.value})}
-              />
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter Shipping Address"
+                  className={`w-full border ${errors.address ? 'border-red-500' : 'border-gray-300'} rounded p-2`}
+                  value={shippingInfo.address}
+                  onChange={(e) => {
+                    setShippingInfo({ ...shippingInfo, address: e.target.value })
+                    if (errors.address) setErrors({ ...errors, address: '' })
+                  }}
+                />
+                {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter City"
+                  className={`w-full border ${errors.city ? 'border-red-500' : 'border-gray-300'} rounded p-2`}
+                  value={shippingInfo.city}
+                  onChange={(e) => {
+                    setShippingInfo({ ...shippingInfo, city: e.target.value })
+                    if (errors.city) setErrors({ ...errors, city: '' })
+                  }}
+                />
+                {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter Zip Code"
+                  className={`w-full border ${errors.zip ? 'border-red-500' : 'border-gray-300'} rounded p-2`}
+                  value={shippingInfo.zip}
+                  onChange={(e) => {
+                    const value = e.target.value
+                    setShippingInfo({ ...shippingInfo, zip: value })
+                    if (errors.zip && value.length === 6) {
+                      setErrors({...errors, zip: ''})
+                    }
+                  }}
+                />
+                {errors.zip && <p className="text-red-500 text-sm mt-1">{errors.zip}</p>}
+              </div>
             </div>
           )}
         </div>
@@ -113,16 +195,22 @@ const Checkout = ({setOrder}) => {
           </div>
           {openSection.payment && (
             <div className="p-4 space-y-4">
-              <select
-                className="w-full border border-gray-300 rounded p-2"
-                value={paymentMode}
-                onChange={(e) => setPaymentMode(e.target.value)}
-              >
-                <option value="">Select Payment Method</option>
-                <option value="card">Debit Card</option>
-                <option value="paypal">PayPal</option>
-                <option value="cod">Cash on Delivery</option>
-              </select>
+              <div>
+                <select
+                  className={`w-full border ${errors.paymentMode ? 'border-red-500' : 'border-gray-300'} rounded p-2`}
+                  value={paymentMode}
+                  onChange={(e) => {
+                    setPaymentMode(e.target.value)
+                    if(errors.paymentMode) setErrors({...errors, paymentMode: ''})
+                  }}
+                >
+                  <option value="">Select Payment Method</option>
+                  <option value="card">Debit Card</option>
+                  <option value="paypal">PayPal</option>
+                  <option value="cod">Cash on Delivery</option>
+                </select>
+                {errors.paymentMode && <p className="text-red-500 text-sm mt-1">{errors.paymentMode}</p>}
+              </div>
 
               {paymentMode === 'card' && (
                 <div className="mt-4 space-y-4">
@@ -155,7 +243,7 @@ const Checkout = ({setOrder}) => {
           )}
         </div>
 
-        {/* Order Summary Section (Bottom) */}
+        {/* Order Summary Section */}
         <div className="bg-white shadow-sm rounded-xl p-6">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">Order Summary</h2>
 
@@ -181,7 +269,10 @@ const Checkout = ({setOrder}) => {
             <span>${totalPrice.toFixed(2)}</span>
           </div>
 
-          <button className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-medium transition" onClick={handleOrder}>
+          <button
+            className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-medium transition"
+            onClick={handleOrder}
+          >
             Place Order
           </button>
         </div>

@@ -12,6 +12,7 @@ const productSlice = createSlice({
     reducers: {
         setProducts(state, action) {
             state.products = action.payload
+            console.log(action.payload)
         },
         setSearchTerm(state, action) {
             state.searchTerm = action.payload

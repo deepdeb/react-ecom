@@ -12,6 +12,7 @@ import { setProducts } from './redux/productSlice'
 import { mockData } from './assets/mockData'
 import Order from './pages/Order'
 import FilterData from './pages/FilterData'
+import ProductDetail from './pages/ProductDetail'
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Route path="/checkout" element={<Checkout setOrder={setOrder} />} ></Route>
         <Route path="/order" element={<Order order={order}/>} ></Route>
         <Route path="/filter-data" element={<FilterData />} ></Route>
+        <Route path="/product/:id" element={<ProductDetail />} ></Route>
       </Routes>
       <Footer />
     </BrowserRouter>
