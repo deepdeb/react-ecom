@@ -11,7 +11,7 @@ const ChangeAddress = ({ setAddress, setIsModalOpen }) => {
     };
 
     return (
-        <div>
+        <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
             <label className="block text-sm font-medium text-gray-700 mb-2">
                 New Shipping Address
             </label>
