@@ -7,11 +7,13 @@ import { useSelector } from 'react-redux'
 import ProductCard from '../components/ProductCard'
 import Shop from './Shop'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const images = [HeroImage1, HeroImage2, HeroImage3];
 
 const Home = () => {
   const { products } = useSelector(state => state.product)
+  const navigate = useNavigate()
 
   const [index, setIndex] = useState(0);
 
@@ -19,22 +21,31 @@ const Home = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
-    }, 3000);
+    }, 7000);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 overflow-x-hidden">
 
       <div className="px-30 my-20">
-        <div className="w-full relative **aspect-video** rounded-lg overflow-hidden shadow-lg mb-12">
-          <img className="h-full w-full object-cover" src={images[index]} alt="Hero" />
+        <div className="h-[384px] w-full max-w-[1504px] relative rounded-lg overflow-hidden shadow-lg mb-12 mx-auto">
+          {/* <img className="h-full w-full object-cover" src={images[index]} alt="Hero" /> */}
+            {images.map((img, i) => (
+              <img
+                key={i}
+                src={img}
+                alt="Hero"
+                className={`absolute top-0 left-0 h-full w-full object-cover transition-opacity duration-3000 ease-in-out ${index === i ? 'opacity-100' : 'opacity-0'}`}
+              />
+            ))}
+
           <div className="absolute inset-0 bg-black/10"></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-center max-w-lg">
-            <h2 className="text-4xl font-extrabold leading-snug drop-shadow-lg">WELCOME TO MY E-COMM SHOP</h2>
-            <p className="text-lg font-semibold mt-3 drop-shadow-md">CHOOSE FROM THOUSANDS OF PRODUCTS</p>
-            <button className="mt-5 bg-red-600 hover:bg-red-700 transition-all duration-300 text-white px-6 py-2 rounded shadow hover:scale-105">
-              SHOP NOW
+            <h2 className="text-4xl font-extrabold leading-snug drop-shadow-lg">Welcome to Storify</h2>
+            <p className="text-lg font-semibold mt-3 drop-shadow-md">Choose from thousands of products</p>
+            <button className="mt-5 bg-red-600 hover:bg-red-700 transition-all duration-300 text-white text-sm px-6 py-2 rounded hover:scale-105" onClick={() => navigate('/shop')}>
+              Shop now
             </button>
           </div>
 
