@@ -1,13 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
+import Modal from './Modal'
+import Login from './Login'
+import Register from './Register'
 
 const Navbar = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isLogin, setIsLogin] = useState(true)
   const { products } = useSelector(state => state.cart)
 
+  const openSignup = () => {
+    setIsLogin(false)
+    // setIsModalOpen(true)
+  }
+
+    const openLogin = () => {
+    setIsLogin(true)
+    // setIsModalOpen(true)
+  }
+
   return (
-    <nav className="bg-white shadow-md **sticky top-0 z-50**"> {/* Added sticky, top-0, and z-50 */}
+    <nav className="bg-white shadow-md sticky top-0 z-50"> {/* Added sticky, top-0, and z-50 */}
       <div className="container mx-auto px-4 md:px-16 lg:px-24 py-4 flex justify-between items-center">
 
         {/* Logo */}
@@ -37,7 +52,7 @@ const Navbar = () => {
               </span>
             )}
           </Link>
-          <button className="hidden md:inline-block text-sm font-semibold text-gray-700 hover:text-red-600 transition">
+          <button className="hidden md:inline-block text-sm font-semibold text-gray-700 hover:text-red-600 transition" onClick={() => setIsModalOpen(true)}>
             Login | Register
           </button>
           <button className="md:hidden text-gray-700 hover:text-red-600">
@@ -54,6 +69,7 @@ const Navbar = () => {
           <Link to="/" className="hover:text-red-600 transition">Contact</Link>
           <Link to="/" className="hover:text-red-600 transition">About</Link>
         </div>
+        <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} > {isLogin ? <Login openSignup={openSignup} /> : <Register openLogin={openLogin} /> } </Modal>
       </div>
     </nav>
   )
