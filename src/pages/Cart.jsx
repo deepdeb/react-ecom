@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import EmptyCart from '../assets/Images/emptycart.png';
+import EmptyCart from '../assets/Images/empty-box.svg';
 import { FaTrashAlt } from 'react-icons/fa';
 import Modal from '../components/Modal';
 import ChangeAddress from '../components/ChangeAddress';
@@ -99,8 +99,8 @@ const Cart = () => {
                 </div>
             ) : (
                 <div className="flex flex-col items-center justify-center px-4 py-20 text-center">
-                    <img src={EmptyCart} alt="Empty cart" className="h-80 mb-6" />
                     <p className="text-gray-600 text-lg mb-6">Looks like your cart is empty.</p>
+                    <img src={EmptyCart} alt="Empty cart" className="h-40 w-40 my-6 animate-bounce" />
                     <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium">
                         Continue Shopping
                     </button>

@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux"
 import { setProducts } from './redux/productSlice'
 import { mockData } from './assets/mockData'
 import Order from './pages/Order'
+import FilterData from './pages/FilterData'
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/cart" element={<Cart />} ></Route>
         <Route path="/checkout" element={<Checkout setOrder={setOrder} />} ></Route>
         <Route path="/order" element={<Order order={order}/>} ></Route>
+        <Route path="/filter-data" element={<FilterData />} ></Route>
       </Routes>
       <Footer />
     </BrowserRouter>

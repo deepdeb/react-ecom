@@ -1,24 +1,34 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Modal from './Modal'
 import Login from './Login'
 import Register from './Register'
+import { setSearchTerm } from '../redux/productSlice'
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isLogin, setIsLogin] = useState(true)
   const { products } = useSelector(state => state.cart)
+  const [search, setSearch] = useState('')
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const openSignup = () => {
     setIsLogin(false)
     // setIsModalOpen(true)
   }
 
-    const openLogin = () => {
+  const openLogin = () => {
     setIsLogin(true)
     // setIsModalOpen(true)
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    dispatch(setSearchTerm(search))
+    navigate('/filter-data')
   }
 
   return (
@@ -32,11 +42,12 @@ const Navbar = () => {
 
         {/* Search */}
         <div className="relative flex-1 mx-4 max-w-xl">
-          <form>
+          <form onSubmit={handleSearch}>
             <input
               type="text"
               placeholder="Search Product.."
               className="w-full border border-gray-300 rounded-full py-2 px-5 pr-10 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent text-sm shadow-sm placeholder-gray-400"
+              onChange={(e) => setSearch(e.target.value)}
             />
             <FaSearch className="absolute top-2.5 right-4 text-red-600 text-sm pointer-events-none" />
           </form>
@@ -69,7 +80,7 @@ const Navbar = () => {
           <Link to="/" className="hover:text-red-600 transition">Contact</Link>
           <Link to="/" className="hover:text-red-600 transition">About</Link>
         </div>
-        <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} > {isLogin ? <Login openSignup={openSignup} /> : <Register openLogin={openLogin} /> } </Modal>
+        <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} > {isLogin ? <Login openSignup={openSignup} /> : <Register openLogin={openLogin} />} </Modal>
       </div>
     </nav>
   )
