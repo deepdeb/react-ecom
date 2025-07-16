@@ -68,7 +68,7 @@ const OrderConfirmation = ({order}) => {
         {/* Buttons */}
         <div className="mt-10 flex justify-center gap-4 flex-wrap">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/shop')}
             className="bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg text-lg font-medium transition"
           >
             Continue Shopping

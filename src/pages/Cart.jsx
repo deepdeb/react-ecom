@@ -101,7 +101,7 @@ const Cart = () => {
                 <div className="flex flex-col items-center justify-center px-4 py-20 text-center">
                     <p className="text-gray-600 text-lg mb-6">Looks like your cart is empty.</p>
                     <img src={EmptyCart} alt="Empty cart" className="h-40 w-40 my-6 animate-bounce" />
-                    <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium">
+                    <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium" onClick={() => navigate('/shop')}>
                         Continue Shopping
                     </button>
                 </div>
