@@ -1,14 +1,14 @@
 
-import Image1 from "./Images/bag.jpg";
-import Image2 from "./Images/sandle.jpg"; 
-import Image3 from "./Images/watch.jpg"; 
-import Image4 from "./Images/cap.jpg"; 
-import Image5 from "./Images/boot1.jpg"; 
-import Image6 from "./Images/dove.jpg"; 
-import Image7 from "./Images/headphone.jpg"; 
-import Image8 from "./Images/robot.jpg"; 
-import Image9 from "./Images/wwatch.jpg"; 
-import Image10 from "./Images/shirt.jpg";
+import Image1 from "./Images/bag.avif";
+import Image2 from "./Images/sandle.webp"; 
+import Image3 from "./Images/watch 2.webp"; 
+import Image4 from "./Images/cap 2.jpg"; 
+import Image5 from "./Images/running shoes.webp"; 
+import Image6 from "./Images/shampoo 2.webp"; 
+import Image7 from "./Images/headphone.webp"; 
+import Image8 from "./Images/robot vacuum.avif"; 
+import Image9 from "./Images/chrono watch.webp"; 
+import Image10 from "./Images/shirt.webp";
 
 export const Categories = [
     "Electronics",
@@ -23,7 +23,7 @@ export const mockData = [
   {
     id: 1,
     image: Image1,
-    name: "Classic Leather Bag",
+    name: "Classic Tote Bag",
     price: 49.99,
   },
   {
@@ -47,14 +47,14 @@ export const mockData = [
   {
     id: 5,
     image: Image5,
-    name: "Winter Boots",
+    name: "Running Shoes",
     price: 79.99,
   },
   {
     id: 6,
     image: Image6,
-    name: "Dove Soap",
-    price: 5.99,
+    name: "Shea Shampoo",
+    price: 20.99,
   },
   {
     id: 7,
